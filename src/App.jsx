@@ -1,10 +1,13 @@
 import React from 'react'
-import ReactDOM from 'react-dom/client'
-import App from './App.jsx'
-import './index.css'
 
-ReactDOM.createRoot(document.getElementById('root')).render(
-  <React.StrictMode>
-    <App />
-  </React.StrictMode>,
-)
+function App() {
+  return (
+    <div style={{ padding: '50px', textAlign: 'center' }}>
+      <h1>Phoenix Arogyam Hospital</h1>
+      <h2>Website Working! ✅</h2>
+      <p>Ab isko design karenge</p>
+    </div>
+  )
+}
+
+export default App
