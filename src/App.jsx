@@ -1,6 +1,6 @@
 import { HashRouter, Routes, Route, Navigate } from 'react-router-dom'
-import login from './pages/login'
-import dashboard from './pages/dashboard'
+import Login from './pages/Login'
+import Dashboard from './pages/Dashboard'
 
 function ProtectedRoute({ children }) {
   const isLoggedIn = localStorage.getItem('isLoggedIn') === 'true';
