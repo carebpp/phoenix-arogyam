@@ -14,7 +14,10 @@
     "react-router-dom": "^6.20.0"
   },
   "devDependencies": {
-    "@vitejs/plugin-react": "^4.2.1",
+    "@vitejs/plugin-react": "^4.2.1",git rm --cached .env
+git add package.json netlify.toml
+git commit -m "fix package.json and remove.env"
+git push
     "vite": "^5.0.8"
   }
 }
