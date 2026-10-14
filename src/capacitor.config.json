@@ -1,0 +1,6 @@
+{
+    "appId": "com.phoenix.arogyam",
+    "appName": "Phoenix Arogyam",
+    "webDir": "dist",
+    "bundledWebRuntime": false
+}
