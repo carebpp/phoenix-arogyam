@@ -1,10 +1,10 @@
-import { HashRouter, Routes, Route, Navigate } from 'react-router-dom'
-import Login from './pages/Login'
-import Dashboard from './pages/Dashboard'
+import { HashRouter, Routes, Route } from 'react-router-dom'
 
-function ProtectedRoute({ children }) {
-  const isLoggedIn = localStorage.getItem('isLoggedIn') === 'true';
-  return isLoggedIn ? children : <Navigate to="/login" />;
+function Login() {
+  return <h1 style={{textAlign:'center', marginTop:'100px'}}>Login Page - Phoenix Arogyam</h1>
+}
+function Dashboard() {
+  return <h1 style={{textAlign:'center', marginTop:'100px'}}>Dashboard - Live Hai!</h1>
 }
 
 export default function App() {
@@ -12,7 +12,7 @@ export default function App() {
     <HashRouter>
       <Routes>
         <Route path="/login" element={<Login />} />
-        <Route path="/" element={<ProtectedRoute><Dashboard /></ProtectedRoute>} />
+        <Route path="/" element={<Dashboard />} />
       </Routes>
     </HashRouter>
   )
