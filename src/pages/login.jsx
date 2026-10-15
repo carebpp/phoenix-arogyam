@@ -19,67 +19,53 @@ export default function Login(){
   const handleMobileSubmit = async (e) => {
     e.preventDefault()
     setError(''); setMessage(''); setLoading(true)
-    try{
-      // aapka OTP send logic
-      setMessage('OTP sent!')
+    setTimeout(()=>{
+      setMessage('OTP sent to '+mobile)
       setStep('otp')
-    }catch(err){ setError(err.message) }
-    finally{ setLoading(false) }
+      setLoading(false)
+    }, 800)
   }
 
   const handleOtpSubmit = async (e) => {
     e.preventDefault()
-    setError(''); setLoading(true)
-    try{
-      // aapka OTP verify logic
-      window.location.href = '/dashboard'
-    }catch(err){ setError(err.message) }
-    finally{ setLoading(false) }
+    setLoading(true)
+    setTimeout(()=>{
+      const list = [mobile,...savedMobiles.filter(m=>m!==mobile)].slice(0,3)
+      localStorage.setItem('phoenix_mobiles', JSON.stringify(list))
+      localStorage.setItem('phoenix_token', 'logged_in')
+      window.location.href = '/'
+      setLoading(false)
+    }, 800)
   }
 
   return (
-    // FIXED LAYOUT - NO JUMPING
     <div className="min-h-screen h-[100dvh] w-full flex items-center justify-center bg-slate-50 p-4 overflow-hidden">
       <div className="w-full max-w-md bg-white rounded-2xl shadow-lg p-6 md:p-8 min-h-[520px] flex flex-col justify-center">
+        <h1 className="text-2xl font-bold text-center mb-2">Phoenix Arogyam</h1>
+        <p className="text-gray-500 text-center text-sm mb-6">Login to continue</p>
 
-        <h1 className="text-2xl font-bold text-center mb-6">Phoenix Arogyam</h1>
-
-        {step === 'mobile'? (
+        {step==='mobile'? (
           <form onSubmit={handleMobileSubmit} className="space-y-4">
-            <input
-              type="tel"
-              value={mobile}
-              onChange={e=>setMobile(e.target.value)}
-              placeholder="Mobile number"
-              className="w-full border rounded-lg p-3"
-              required
-            />
-            <button disabled={loading} className="w-full bg-blue-600 text-white p-3 rounded-lg">
-              {loading? 'Sending...' : 'Send OTP'}
-            </button>
+            <input type="tel" value={mobile} onChange={e=>setMobile(e.target.value)} placeholder="Mobile number" className="w-full border rounded-lg p-3 outline-none focus:ring-2 focus:ring-blue-500" required />
+            {savedMobiles.length>0 && (
+              <div className="flex gap-2 flex-wrap">
+                {savedMobiles.map(m=>(
+                  <button key={m} type="button" onClick={()=>setMobile(m)} className="text-xs bg-gray-100 px-2 py-1 rounded">{m}</button>
+                ))}
+              </div>
+            )}
+            <button disabled={loading} className="w-full bg-blue-600 hover:bg-blue-700 text-white p-3 rounded-lg font-medium">{loading?'Sending...':'Send OTP'}</button>
           </form>
         ) : (
           <form onSubmit={handleOtpSubmit} className="space-y-4">
-            <input
-              type="text"
-              value={otp}
-              onChange={e=>setOtp(e.target.value)}
-              placeholder="Enter OTP"
-              className="w-full border rounded-lg p-3"
-              required
-            />
-            <button disabled={loading} className="w-full bg-blue-600 text-white p-3 rounded-lg">
-              {loading? 'Verifying...' : 'Verify OTP'}
-            </button>
-            <button type="button" onClick={()=>setStep('mobile')} className="w-full text-sm text-gray-500">
-              Change number
-            </button>
+            <input type="text" value={otp} onChange={e=>setOtp(e.target.value)} placeholder="Enter OTP" className="w-full border rounded-lg p-3 outline-none focus:ring-2 focus:ring-blue-500" required />
+            <button disabled={loading} className="w-full bg-blue-600 hover:bg-blue-700 text-white p-3 rounded-lg font-medium">{loading?'Verifying...':'Verify OTP'}</button>
+            <button type="button" onClick={()=>setStep('mobile')} className="w-full text-sm text-gray-500">Change number</button>
           </form>
         )}
 
         {error && <p className="text-red-500 text-sm mt-4 text-center">{error}</p>}
         {message && <p className="text-green-600 text-sm mt-4 text-center">{message}</p>}
-
       </div>
     </div>
   )
