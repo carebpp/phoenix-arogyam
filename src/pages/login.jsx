@@ -1,3 +1,9 @@
+// Outer div ko ye banao
+<div className="min-h-screen w-full flex items-center justify-center bg-slate-50 overflow-hidden">
+  <div className="w-full max-w-md min-h-[500px]"> // FIXED HEIGHT - ye sabse important hai
+    // aapka login form
+  </div>
+</div>
 import { useState, useEffect } from 'react'
 
 export default function Login(){
