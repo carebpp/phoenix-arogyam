@@ -16,4 +16,18 @@ body {
 
 html {
     scroll-behavior: smooth;
+}html, body {
+  overflow-x: hidden;
+  height: 100%;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  overflow-y: auto;
+  -webkit-overflow-scrolling: touch;
+}
+
+* {
+  box-sizing: border-box;
 }
