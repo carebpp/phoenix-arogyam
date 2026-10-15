@@ -8,11 +8,7 @@ export default function App() {
     <HashRouter>
       <Routes>
         <Route path="/login" element={<Login />} />
-        <Route path="/" element={
-          <ProtectedRoute>
-            <Dashboard />
-          </ProtectedRoute>
-        } />
+        <Route path="/" element={<ProtectedRoute><Dashboard /></ProtectedRoute>} />
       </Routes>
     </HashRouter>
   )
