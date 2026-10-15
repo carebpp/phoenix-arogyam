@@ -6,10 +6,8 @@ exports.handler = async (event) => {
   try {
     const { name, email, message } = JSON.parse(event.body)
 
-    // Yahan aapka email logic ayega
-    // Example: Nodemailer ya SendGrid
-
-    console.log('New Contact:', name, email, message)
+    // carebpp@gmail.com
+    // up11A1322#
 
     return {
       statusCode: 200,
