@@ -1,3 +1,4 @@
+mport JyotishDashboard from './components/JyotishDashboard'
 import { HashRouter, Routes, Route } from 'react-router-dom'
 import ProtectedRoute from './ProtectedRoute.jsx'
 import Login from './pages/login.jsx'
