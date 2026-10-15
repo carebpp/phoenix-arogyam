@@ -1,6 +1,3 @@
-html, body {
-  overflow-x: hidden;
-  height: 100%;
   scroll-behavior: smooth;
 }
 import { useState, useEffect } from 'react'
