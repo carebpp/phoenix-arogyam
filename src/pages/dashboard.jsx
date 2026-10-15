@@ -93,3 +93,10 @@ export default function Dashboard({ onLogout }){
     </div>
   )
 }
+            <button type="submit" className="w-full bg-gradient-to-r from-orange-500 to-orange-600 text-white font-bold py-3.5 rounded-xl mt-2">
+              🔮 कुंडली देखें
+            </button>
+          </form>
+        </div>
+      ) : (
+        <div className="max-w-[480px] mx-auto bg-white rounded-2xl border-2 border-amber-300 p-4">
