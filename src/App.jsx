@@ -3,38 +3,35 @@ import { useState, useEffect } from 'react'
 import Dashboard from './pages/dashboard.jsx'
 import Login from './pages/login.jsx'
 
-function DashboardWithLogout() {
-  const [currentMobile, setCurrentMobile] = useState('')
-  const [allMobiles, setAllMobiles] = useState([])
-  const [showMenu, setShowMenu] = useState(false)
-
-  useEffect(() => {
-    setCurrentMobile(localStorage.getItem('phoenix_current_mobile') || '')
-    try {
-      const list = JSON.parse(localStorage.getItem('phoenix_mobiles') || '[]')
-      setAllMobiles(list)
-    } catch {}
-  }, [])
-
-  const logoutAll = async () => {
-    try { await fetch("/api/logout", { method: "POST", credentials: "include" }) } catch {}
-    localStorage.clear()
-    sessionStorage.clear()
-    window.location.replace("/")
-  }
-
-  return <Dashboard currentMobile={currentMobile} allMobiles={allMobiles} showMenu={showMenu} setShowMenu={setShowMenu} onLogoutAll={logoutAll} />
-}
-
 function App() {
   const [isLoggedIn, setIsLoggedIn] = useState(false)
+  const [checking, setChecking] = useState(true)
 
   useEffect(() => {
     const token = localStorage.getItem('phoenix_token')
     if (token) setIsLoggedIn(true)
+    setChecking(false)
   }, [])
 
-  return isLoggedIn ? <DashboardWithLogout /> : <Login />
+  const handleLogin = () => {
+    setIsLoggedIn(true)
+  }
+
+  const handleLogout = async () => {
+    try { await fetch("/api/logout", { method: "POST", credentials: "include" }) } catch {}
+    localStorage.clear()
+    sessionStorage.clear()
+    setIsLoggedIn(false)
+    window.location.replace("/")
+  }
+
+  if (checking) return <div style={{display:'flex',height:'100vh',alignItems:'center',justifyContent:'center'}}>Loading...</div>
+
+  if (!isLoggedIn) {
+    return <Login onLogin={handleLogin} />
+  }
+
+  return <Dashboard onLogout={handleLogout} />
 }
 
 export default App
