@@ -1,62 +1,30 @@
-import { useState, useEffect } from 'react'
-
-export default function Login({ onLogin }){
-  const [mobile,setMobile]=useState('')
-  const [otp,setOtp]=useState('')
-  const [step,setStep]=useState('mobile')
-  const [loading,setLoading]=useState(false)
-  const [savedMobiles,setSavedMobiles]=useState([])
-
-  useEffect(()=>{
-    try{ const list = JSON.parse(localStorage.getItem('phoenix_mobiles')||'[]'); setSavedMobiles(list) }catch{}
-  },[])
-
-  const isValidMobile = mobile.length===10
-
-  const handleSend = async (e) => {
-    e.preventDefault()
-    if(!isValidMobile) return
-    setLoading(true)
-    setTimeout(()=>{ setStep('otp'); setLoading(false) }, 500)
-  }
-
-  const handleVerify = (e) => {
-    e.preventDefault()
-    localStorage.setItem('phoenix_mobiles', JSON.stringify([mobile,...savedMobiles.filter(m=>m!==mobile)].slice(0,3)))
-    localStorage.setItem('phoenix_current_mobile', mobile)
-    localStorage.setItem('phoenix_token', 'login_'+Date.now())
-    if(onLogin) onLogin(); else window.location.href='/'
-  }
-
+export default function Login() {
   return (
-    <div className="min-h-screen flex items-center justify-center bg-[#fefce8] p-4">
-      <div className="w-full max-w-[380px] bg-white rounded-2xl p-8 shadow-xl border border-amber-200">
-        <h1 className="text-2xl font-extrabold text-center text-amber-900">Phoenix Arogyam</h1>
-        <p className="text-center text-gray-500 text-sm mt-1 mb-6">Login to continue</p>
+    <div className="min-h-screen bg-gradient-to-br from-amber-50 via-white to-orange-50 flex items-center justify-center p-4">
+      <div className="w-full max-w-md">
+        <div className="bg-white rounded-[32px] shadow-[0_20px_60px_rgba(0,0,0,0.08)] p-8 border border-amber-100">
+          <div className="text-center mb-8">
+            <div className="w-16 h-16 bg-gradient-to-br from-amber-500 to-orange-600 rounded-2xl mx-auto flex items-center justify-center text-white text-2xl font-bold mb-4">P</div>
+            <h1 className="text-3xl font-bold text-gray-900 tracking-tight">Phoenix Arogyam</h1>
+            <p className="text-gray-500 mt-2 text-sm">Welcome back, please login</p>
+          </div>
 
-        {step==='mobile'? (
-          <form onSubmit={handleSend} className="space-y-4">
+          <div className="space-y-5">
             <div>
-              <label className="text-sm font-bold text-gray-700">Mobile {mobile.length}/10</label>
-              <input type="tel" value={mobile} onChange={e=>setMobile(e.target.value.replace(/\D/g,''))} maxLength={10} placeholder="97589XXXXX" required
-                className="w-full mt-1 p-3 rounded-xl border-2 border-amber-200 bg-amber-50 outline-none focus:border-amber-500" />
+              <label className="text-sm font-semibold text-gray-700 mb-2 block">Email</label>
+              <input className="w-full px-4 py-3.5 rounded-2xl bg-gray-50 border border-gray-100 focus:bg-white focus:border-amber-300 focus:ring-4 focus:ring-amber-100 outline-none transition-all" placeholder="you@example.com" />
             </div>
-            <button disabled={!isValidMobile || loading} className={`w-full py-3 rounded-xl font-bold text-white ${isValidMobile? 'bg-gradient-to-r from-amber-500 to-orange-600' : 'bg-gray-300'}`}>
-              {loading? 'Sending...' : 'Send OTP'}
+            <div>
+              <label className="text-sm font-semibold text-gray-700 mb-2 block">Password</label>
+              <input type="password" className="w-full px-4 py-3.5 rounded-2xl bg-gray-50 border border-gray-100 focus:bg-white focus:border-amber-300 focus:ring-4 focus:ring-amber-100 outline-none transition-all" placeholder="••••••••" />
+            </div>
+            <button className="w-full py-4 bg-gradient-to-r from-amber-500 to-orange-600 text-white rounded-2xl font-semibold shadow-lg shadow-amber-200 hover:shadow-xl hover:shadow-amber-200 hover:-translate-y-0.5 transition-all">
+              Sign In
             </button>
-            {savedMobiles.length>0 && <div className="flex gap-2">{savedMobiles.map(m=><button key={m} type="button" onClick={()=>setMobile(m)} className="text-xs bg-gray-100 px-3 py-1 rounded-full">{m}</button>)}</div>}
-          </form>
-        ) : (
-          <form onSubmit={handleVerify} className="space-y-4">
-            <p className="text-sm text-green-600 font-medium">OTP sent to {mobile} (Use 1234)</p>
-            <input value={otp} onChange={e=>setOtp(e.target.value)} placeholder="Enter OTP - 1234" required
-              className="w-full p-3 rounded-xl border-2 border-amber-200 bg-amber-50 outline-none" />
-            <div className="flex gap-2">
-              <button type="submit" className="flex-1 py-3 rounded-xl font-bold bg-blue-600 text-white">Verify OTP</button>
-              <button type="button" onClick={()=>setStep('mobile')} className="flex-1 py-3 rounded-xl bg-gray-100 font-bold">Change number</button>
-            </div>
-          </form>
-        )}
+          </div>
+
+          <p className="text-center text-sm text-gray-400 mt-8">Golden Design • Ayurveda Wellness</p>
+        </div>
       </div>
     </div>
   )
