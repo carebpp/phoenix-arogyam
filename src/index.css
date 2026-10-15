@@ -2,24 +2,5 @@
 @tailwind components;
 @tailwind utilities;
 
-html {
-  scroll-behavior: smooth;
-}
-
-html, body {
-  overflow-x: hidden;
-  height: 100%;
-  margin: 0;
-  padding: 0;
-}
-
-body {
-  overflow-y: auto;
-  -webkit-overflow-scrolling: touch;
-  font-family: 'Inter', system-ui, -apple-system, sans-serif;
-  background-color: #ffffff;
-}
-
-* {
-  box-sizing: border-box;
-}
+html { scroll-behavior: smooth; }
+html, body { overflow-x: hidden; margin: 0; padding: 0; }
