@@ -26,10 +26,11 @@ export default function Dashboard({ onLogout }){
   const [form, setForm] = useState({
     naam: '', dd: '', mm: '', yyyy: '', time: '', sthan: '', mobile: '', gotra: '', khana: 'Veg'
   })
+  <button onClick={()=>{}} className="w-full bg-gradient-to-r from-amber-500 to-orange-600 text-white py-3 rounded-xl font-bold mb-2">कुंडली देखें</button>
   const [result, setResult] = useState(null)
 
   const dobString = form.yyyy && form.mm && form.dd? `${form.yyyy}-${form.mm.padStart(2,'0')}-${form.dd.padStart(2,'0')}` : ''
-
+<button onClick={()=>{}} className="w-full bg-gradient-to-r from-amber-500 to-orange-600 text-white py-3 rounded-xl font-bold mb-2">कुंडली देखें</button>
   const handleSubmit = (e) => {
     e.preventDefault()
     const [mobileError, setMobileError] = useState('')
