@@ -1,3 +1,4 @@
+import { useNavigate } from 'react-router-dom'
 import { useState, useRef } from 'react'
 
 const GRAHAS = ["Surya","Chandra","Mangal","Budh","Guru","Shukra","Shani","Rahu","Ketu"]
@@ -27,8 +28,14 @@ export default function Dashboard({ onLogout }){
     naam: '', dd: '', mm: '', yyyy: '', time: '', sthan: '', mobile: '', gotra: '', khana: 'Veg'
   })
   <button onClick={()=>{}} className="w-full bg-gradient-to-r from-amber-500 to-orange-600 text-white py-3 rounded-xl font-bold mb-2">कुंडली देखें</button>
-  const [result, setResult] = useState(null)
-
+  const navigate = useNavigate()
+const [result, setResult] = useState(null)
+<button 
+  onClick={()=> navigate('/jyotish', { state: { naam: form.naam, rashi: 'Mesh', gotra: form.gotra, khana: form.khana, sthan: form.sthan } })} 
+  className="w-full bg-gradient-to-r from-amber-500 to-orange-600 text-white py-3 rounded-xl font-bold mb-2"
+>
+  कुंडली देखें
+</button>
   const dobString = form.yyyy && form.mm && form.dd? `${form.yyyy}-${form.mm.padStart(2,'0')}-${form.dd.padStart(2,'0')}` : ''
 <button onClick={()=>{}} className="w-full bg-gradient-to-r from-amber-500 to-orange-600 text-white py-3 rounded-xl font-bold mb-2">कुंडली देखें</button>
   const handleSubmit = (e) => {
