@@ -32,15 +32,14 @@ export default function Dashboard({ onLogout }){
 
   const handleSubmit = (e) => {
     e.preventDefault()
-    if(form.mobile.length!==10) return alert('10 अंक का मोबाइल डालो sir')
+    const [mobileError, setMobileError] = useState('')
     const rashi = getRashi(dobString)
     setResult({...form, rashi, grahas: GRAHAS })
   }
-
   return (
     <div className="min-h-[100dvh] bg-[#fefce8] p-2 pb-20">
       <div className="max-w-[480px] mx-auto flex justify-between items-center py-3 px-2">
-        <h1 className="text-[14px] font-bold text-amber-900 leading-tight">फीनिक्स आरोग्यम ज्योतिष विद्या केन्द्रम्</h1>
+        <h1 className="text-[14px] font-bold text-amber-900 leading-tight">PHOENIX Arogyam JyotishाVidhya Kendra</h1>
         <button onClick={onLogout} className="text-[11px] bg-red-600 text-white px-3 py-1.5 rounded-full font-bold">Logout</button>
       </div>
 
