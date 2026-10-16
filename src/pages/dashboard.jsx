@@ -32,20 +32,18 @@ export default function Dashboard({ onLogout }){
 
   const handleSubmit = (e) => {
     e.preventDefault()
-    if(form.mobile.length!==10) return alert('10 ank ka mobile dalo sir')
+    if(form.mobile.length!==10) return alert('10 अंक का मोबाइल डालो sir')
     const rashi = getRashi(dobString)
     setResult({...form, rashi, grahas: GRAHAS })
   }
 
   return (
     <div className="min-h-[100dvh] bg-[#fefce8] p-2 pb-20">
-      {/* Header */}
       <div className="max-w-[480px] mx-auto flex justify-between items-center py-3 px-2">
         <h1 className="text-[14px] font-bold text-amber-900 leading-tight">फीनिक्स आरोग्यम ज्योतिष विद्या केन्द्रम्</h1>
         <button onClick={onLogout} className="text-[11px] bg-red-600 text-white px-3 py-1.5 rounded-full font-bold">Logout</button>
       </div>
 
-      {/* Tabs */}
       <div className="max-w-[480px] mx-auto flex gap-2 mb-4 px-2">
         <button onClick={()=>setActiveTab('janm')} className={`flex-1 py-2.5 rounded-xl text-sm font-bold border ${activeTab==='janm'?'bg-gradient-to-r from-amber-500 to-orange-600 text-white border-orange-400':'bg-white border-amber-200'}`}>जन्म कुंडली</button>
         <button onClick={()=>setActiveTab('vivah')} className={`flex-1 py-2.5 rounded-xl text-sm font-bold border ${activeTab==='vivah'?'bg-gradient-to-r from-amber-500 to-orange-600 text-white':'bg-white border-amber-200'}`}>विवाह लग्न</button>
@@ -56,7 +54,6 @@ export default function Dashboard({ onLogout }){
         <div className="max-w-[480px] mx-auto bg-white rounded-2xl border-2 border-amber-300 p-4 shadow-sm">
           <form onSubmit={handleSubmit} className="space-y-3">
             <div><label className="text-sm font-bold">नाम</label><input value={form.naam} onChange={e=>setForm({...form, naam:e.target.value})} placeholder="पूरा नाम" required className="w-full mt-1 bg-amber-50 border border-amber-200 rounded-xl p-3 outline-none" /></div>
-
             <div>
               <label className="text-sm font-bold">जन्म तिथि DD/MM/YYYY</label>
               <div className="flex gap-2 mt-1">
@@ -65,18 +62,11 @@ export default function Dashboard({ onLogout }){
                 <input value={form.yyyy} onChange={e=>setForm({...form, yyyy:e.target.value.replace(/\D/g,'')})} placeholder="YYYY" maxLength={4} required className="w-1/3 bg-amber-50 border border-amber-200 rounded-xl p-3 text-center" />
               </div>
             </div>
-
             <div><label className="text-sm font-bold">जन्म समय</label><input ref={samayRef} type="time" value={form.time} onChange={e=>setForm({...form, time:e.target.value})} required className="w-full mt-1 bg-amber-50 border border-amber-200 rounded-xl p-3" /></div>
             <div><label className="text-sm font-bold">जन्म स्थान</label><input value={form.sthan} onChange={e=>setForm({...form, sthan:e.target.value})} placeholder="शहर / गाँव" required className="w-full mt-1 bg-amber-50 border border-amber-200 rounded-xl p-3" /></div>
-
-            {/* Gotra - Added */}
             <div><label className="text-sm font-bold">गोत्र</label><input value={form.gotra} onChange={e=>setForm({...form, gotra:e.target.value})} placeholder="जैसे - भारद्वाज, कश्यप" required className="w-full mt-1 bg-amber-50 border border-amber-200 rounded-xl p-3" /></div>
-
-            {/* Khana - Added */}
             <div><label className="text-sm font-bold">खाना</label><select value={form.khana} onChange={e=>setForm({...form, khana:e.target.value})} className="w-full mt-1 bg-amber-50 border border-amber-200 rounded-xl p-3"><option>Veg</option><option>Non-Veg</option><option>Jain</option><option>Vegan</option></select></div>
-
             <div><label className="text-sm font-bold">मोबाइल {form.mobile.length}/10</label><input type="tel" value={form.mobile} onChange={e=>setForm({...form, mobile:e.target.value.replace(/\D/g,'')})} maxLength={10} placeholder="10 अंक" required className="w-full mt-1 bg-amber-50 border border-amber-200 rounded-xl p-3" /></div>
-
             <button type="submit" className="w-full bg-gradient-to-r from-orange-500 to-orange-600 text-white font-bold py-3.5 rounded-xl">🔮 कुंडली देखें</button>
           </form>
         </div>
@@ -93,10 +83,3 @@ export default function Dashboard({ onLogout }){
     </div>
   )
 }
-            <button type="submit" className="w-full bg-gradient-to-r from-orange-500 to-orange-600 text-white font-bold py-3.5 rounded-xl mt-2">
-              🔮 कुंडली देखें
-            </button>
-          </form>
-        </div>
-      ) : (
-        <div className="max-w-[480px] mx-auto bg-white rounded-2xl border-2 border-amber-300 p-4">
