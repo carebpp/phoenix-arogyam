@@ -1,5 +1,4 @@
-import JyotishDashboard from './pages/JyotishDashboard.jsx'
-import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom'
+import JyotishDashboard from './pages/JyotishDashboard.jsx''
 import Login from './pages/Login.jsx'
 import Dashboard from './pages/dashboard.jsx'
 import ProtectedRoute from './ProtectedRoute.jsx'
