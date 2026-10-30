@@ -46,10 +46,7 @@ function generateChart(rashi) {
     const h = ((idx + i) % 12) + 1
     houses[h] = houses[h] ? `${houses[h]}, ${g}` : g
   })
-  return Array.from({ length: 12 }, (_, i) => ({
-    house: i + 1,
-    grahas: houses[i + 1] || '—'
-  }))
+  return Array.from({ length: 12 }, (_, i) => ({ house: i + 1, grahas: houses[i + 1] || '—' }))
 }
 
 function generateFutureInsights(rashi, dob) {
@@ -91,8 +88,8 @@ function buildCareerPrediction(dob, rashi) {
   const businessScore = (total + (RASHIS.indexOf(rashi) + 1) * 2) % 100
   const jobScore = (total + 18 + (RASHIS.indexOf(rashi) * 3)) % 100
 
-  let path = businessScore >= jobScore ? 'Business' : 'Job'
-  let note = path === 'Business'
+  const path = businessScore >= jobScore ? 'Business' : 'Job'
+  const note = path === 'Business'
     ? 'Aapko vyavsay aur swatantra kary ko adhik labh milega, pratyek nayi soch ko yojana ke saath follow karo.'
     : 'Aapko adhik suklad rahega jab aap ek stable prabandh, team aur discipline ke saath kaam karoge.'
 
@@ -138,58 +135,24 @@ export default function JyotishDashboard() {
     }
   }, [location.state])
 
-  const outerShell = {
-    minHeight: '100vh',
-    background: 'radial-gradient(circle at top, #fff7c2 0%, #fef3c7 20%, #f5d0fe 45%, #1e1b4b 100%)',
-    padding: '18px 12px 40px',
-    fontFamily: 'Segoe UI, Arial, sans-serif'
-  }
-
-  const panel = {
-    maxWidth: '520px',
-    margin: '0 auto',
-    perspective: '1200px'
-  }
-
-  const topCard = {
-    background: 'linear-gradient(135deg, rgba(255,255,255,0.18), rgba(255,255,255,0.04))',
-    backdropFilter: 'blur(8px)',
-    border: '1px solid rgba(255,255,255,0.28)',
-    borderRadius: '24px',
-    padding: '16px 16px 14px',
-    boxShadow: '0 20px 45px rgba(17, 24, 39, 0.45), inset 0 2px 8px rgba(255,255,255,0.28)',
-    transform: 'rotateX(8deg)',
-    transformStyle: 'preserve-3d'
-  }
-
-  const navButton = (active) => ({
-    border: active ? '1px solid rgba(251,191,36,0.9)' : '1px solid rgba(255,255,255,0.25)',
-    background: active ? 'linear-gradient(135deg, #f59e0b, #ea580c)' : 'linear-gradient(180deg, rgba(255,255,255,0.14), rgba(255,255,255,0.05))',
-    color: active ? '#fff' : '#fff7ed',
-    borderRadius: '14px',
-    padding: '10px 6px',
-    fontWeight: 800,
-    fontSize: '10px',
-    minHeight: '58px',
-    boxShadow: active ? '0 12px 22px rgba(249,115,22,0.38)' : '0 8px 18px rgba(15, 23, 42, 0.18)',
-    transform: active ? 'translateY(-2px) scale(1.02)' : 'translateY(0) scale(1)',
-    transition: 'all 0.2s ease'
-  })
-
-  const infoCard = {
-    background: 'linear-gradient(145deg, rgba(255,255,255,0.26), rgba(255,255,255,0.08))',
-    border: '1px solid rgba(255,255,255,0.2)',
-    borderRadius: '18px',
-    padding: '14px',
-    boxShadow: '0 16px 28px rgba(0, 0, 0, 0.18)',
-    transform: 'translateZ(18px)',
-    backdropFilter: 'blur(5px)'
-  }
-
   return (
-    <div style={outerShell}>
-      <div style={panel}>
-        <div style={topCard}>
+    <div style={{
+      minHeight: '100vh',
+      background: 'radial-gradient(circle at top, #fff7c2 0%, #fef3c7 20%, #f5d0fe 45%, #1e1b4b 100%)',
+      padding: '18px 12px 40px',
+      fontFamily: 'Segoe UI, Arial, sans-serif'
+    }}>
+      <div style={{ maxWidth: '520px', margin: '0 auto', perspective: '1200px' }}>
+        <div style={{
+          background: 'linear-gradient(135deg, rgba(255,255,255,0.18), rgba(255,255,255,0.04))',
+          backdropFilter: 'blur(8px)',
+          border: '1px solid rgba(255,255,255,0.28)',
+          borderRadius: '24px',
+          padding: '16px 16px 14px',
+          boxShadow: '0 20px 45px rgba(17, 24, 39, 0.45), inset 0 2px 8px rgba(255,255,255,0.28)',
+          transform: 'rotateX(8deg)',
+          transformStyle: 'preserve-3d'
+        }}>
           <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '14px' }}>
             <div>
               <div style={{ fontSize: '11px', letterSpacing: '1.5px', color: '#fef3c7', fontWeight: 800 }}>PHOENIX AROGYAM</div>
@@ -216,7 +179,19 @@ export default function JyotishDashboard() {
               <button
                 key={item.key}
                 onClick={() => setPage(idx)}
-                style={navButton(page === idx)}
+                style={{
+                  border: page === idx ? '1px solid rgba(251,191,36,0.9)' : '1px solid rgba(255,255,255,0.25)',
+                  background: page === idx ? 'linear-gradient(135deg, #f59e0b, #ea580c)' : 'linear-gradient(180deg, rgba(255,255,255,0.14), rgba(255,255,255,0.05))',
+                  color: page === idx ? '#fff' : '#fff7ed',
+                  borderRadius: '14px',
+                  padding: '10px 6px',
+                  fontWeight: 800,
+                  fontSize: '10px',
+                  minHeight: '58px',
+                  boxShadow: page === idx ? '0 12px 22px rgba(249,115,22,0.38)' : '0 8px 18px rgba(15, 23, 42, 0.18)',
+                  transform: page === idx ? 'translateY(-2px) scale(1.02)' : 'translateY(0) scale(1)',
+                  transition: 'all 0.2s ease'
+                }}
               >
                 {item.label}
               </button>
@@ -226,7 +201,15 @@ export default function JyotishDashboard() {
 
         <div style={{ marginTop: '18px' }}>
           {page === 0 && (
-            <div style={{ ...infoCard, background: 'linear-gradient(155deg, rgba(255,255,255,0.28), rgba(254,240,138,0.16))' }}>
+            <div style={{
+              background: 'linear-gradient(155deg, rgba(255,255,255,0.28), rgba(254,240,138,0.16))',
+              border: '1px solid rgba(255,255,255,0.2)',
+              borderRadius: '18px',
+              padding: '14px',
+              boxShadow: '0 16px 28px rgba(0, 0, 0, 0.18)',
+              transform: 'translateZ(18px)',
+              backdropFilter: 'blur(5px)'
+            }}>
               <div style={{ textAlign: 'center', marginBottom: '12px' }}>
                 <h3 style={{ margin: 0, color: '#fff7ed', fontSize: '28px', textShadow: '0 4px 12px rgba(0,0,0,0.2)' }}>{details.naam}</h3>
                 <p style={{ margin: '8px 0 0', color: '#fef9c3', fontSize: '12px' }}>
@@ -274,7 +257,15 @@ export default function JyotishDashboard() {
           )}
 
           {page === 1 && (
-            <div style={{ ...infoCard, background: 'linear-gradient(155deg, rgba(255,255,255,0.28), rgba(59,130,246,0.12))' }}>
+            <div style={{
+              background: 'linear-gradient(155deg, rgba(255,255,255,0.28), rgba(59,130,246,0.12))',
+              border: '1px solid rgba(255,255,255,0.2)',
+              borderRadius: '18px',
+              padding: '14px',
+              boxShadow: '0 16px 28px rgba(0, 0, 0, 0.18)',
+              transform: 'translateZ(18px)',
+              backdropFilter: 'blur(5px)'
+            }}>
               <h3 style={{ textAlign: 'center', margin: '0 0 14px', color: '#fef3c7', fontSize: '20px' }}>Grah Chal / Rashi Analysis</h3>
               <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, minmax(0,1fr))', gap: '8px' }}>
                 {GRAHAS.map((grah, idx) => (
@@ -304,7 +295,15 @@ export default function JyotishDashboard() {
           )}
 
           {page === 2 && (
-            <div style={{ ...infoCard, background: 'linear-gradient(155deg, rgba(255,255,255,0.28), rgba(34,197,94,0.12))' }}>
+            <div style={{
+              background: 'linear-gradient(155deg, rgba(255,255,255,0.28), rgba(34,197,94,0.12))',
+              border: '1px solid rgba(255,255,255,0.2)',
+              borderRadius: '18px',
+              padding: '14px',
+              boxShadow: '0 16px 28px rgba(0, 0, 0, 0.18)',
+              transform: 'translateZ(18px)',
+              backdropFilter: 'blur(5px)'
+            }}>
               <h3 style={{ textAlign: 'center', margin: '0 0 14px', color: '#fef3c7', fontSize: '20px' }}>Bhagyafal / Future</h3>
               {details.future.map((item) => (
                 <div key={item.title} style={{ background: 'linear-gradient(180deg, rgba(240,253,244,0.2), rgba(22,163,74,0.08))', borderLeft: '4px solid #4ade80', borderRadius: '12px', padding: '10px 10px 10px 12px', marginBottom: '10px', boxShadow: '0 10px 20px rgba(34,197,94,0.1)' }}>
@@ -316,7 +315,15 @@ export default function JyotishDashboard() {
           )}
 
           {page === 3 && (
-            <div style={{ ...infoCard, background: 'linear-gradient(155deg, rgba(255,255,255,0.28), rgba(244,114,182,0.12))' }}>
+            <div style={{
+              background: 'linear-gradient(155deg, rgba(255,255,255,0.28), rgba(244,114,182,0.12))',
+              border: '1px solid rgba(255,255,255,0.2)',
+              borderRadius: '18px',
+              padding: '14px',
+              boxShadow: '0 16px 28px rgba(0, 0, 0, 0.18)',
+              transform: 'translateZ(18px)',
+              backdropFilter: 'blur(5px)'
+            }}>
               <h3 style={{ textAlign: 'center', margin: '0 0 14px', color: '#fef3c7', fontSize: '20px' }}>Janm Tithi Vimarsh + Sudoku Chart</h3>
               <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, minmax(0,1fr))', gap: '8px', marginBottom: '12px' }}>
                 <div style={{ background: 'linear-gradient(180deg, rgba(254,226,226,0.24), rgba(251,113,133,0.08))', borderRadius: '12px', padding: '10px', color: '#fef2f2' }}>
@@ -348,7 +355,15 @@ export default function JyotishDashboard() {
           )}
 
           {page === 4 && (
-            <div style={{ ...infoCard, background: 'linear-gradient(155deg, rgba(255,255,255,0.28), rgba(15,118,110,0.12))' }}>
+            <div style={{
+              background: 'linear-gradient(155deg, rgba(255,255,255,0.28), rgba(15,118,110,0.12))',
+              border: '1px solid rgba(255,255,255,0.2)',
+              borderRadius: '18px',
+              padding: '14px',
+              boxShadow: '0 16px 28px rgba(0, 0, 0, 0.18)',
+              transform: 'translateZ(18px)',
+              backdropFilter: 'blur(5px)'
+            }}>
               <h3 style={{ textAlign: 'center', margin: '0 0 14px', color: '#fef3c7', fontSize: '20px' }}>Naukri / Business Kary Faladesh</h3>
 
               <div style={{ display: 'grid', gridTemplateColumns: 'repeat(2, minmax(0,1fr))', gap: '10px', marginBottom: '12px' }}>
