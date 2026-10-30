@@ -58,7 +58,7 @@ function generateFutureInsights(rashi, dob) {
     `Aapka ${rashi} rashi Shani aur Guru ki gati se 2026-2027 me dhan-samriddhi ko badhane wala hai.`,
     `Aapke jeevan me nayi takneek aur vyavsayik safalta ka avsar rahega.`,
     `Karma, satya aur niyat ke saath aapko sukh aur prabhav mil sakta hai.`,
-    `Aapka man aajao se vishesh folling and focus will make the path smooth.`
+    `Aapka man aur sankalp aaj ke yug me ek nayi unchai ko chhoo sakta hai.`
   ]
 
   return base.map((line, i) => ({
@@ -138,159 +138,246 @@ export default function JyotishDashboard() {
     }
   }, [location.state])
 
-  return (
-    <div style={{ minHeight: '100vh', background: '#fefce8', padding: '16px 12px 40px' }}>
-      <div style={{ maxWidth: '520px', margin: '0 auto' }}>
-        <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '12px' }}>
-          <div>
-            <div style={{ fontSize: '12px', color: '#9a4d00', fontWeight: 700 }}>PHOENIX AROGYAM</div>
-            <h2 style={{ margin: 0, color: '#7c2d12', fontSize: '22px' }}>Jyotish Pradarshan</h2>
-          </div>
-          <button
-            onClick={() => navigate('/dashboard')}
-            style={{ background: '#facc15', border: 'none', borderRadius: '999px', padding: '8px 12px', fontWeight: 700, color: '#7c2d12' }}
-          >
-            Back
-          </button>
-        </div>
+  const outerShell = {
+    minHeight: '100vh',
+    background: 'radial-gradient(circle at top, #fff7c2 0%, #fef3c7 20%, #f5d0fe 45%, #1e1b4b 100%)',
+    padding: '18px 12px 40px',
+    fontFamily: 'Segoe UI, Arial, sans-serif'
+  }
 
-        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(5, minmax(0, 1fr))', gap: '6px', marginBottom: '16px' }}>
-          {PAGE_META.map((item, idx) => (
+  const panel = {
+    maxWidth: '520px',
+    margin: '0 auto',
+    perspective: '1200px'
+  }
+
+  const topCard = {
+    background: 'linear-gradient(135deg, rgba(255,255,255,0.18), rgba(255,255,255,0.04))',
+    backdropFilter: 'blur(8px)',
+    border: '1px solid rgba(255,255,255,0.28)',
+    borderRadius: '24px',
+    padding: '16px 16px 14px',
+    boxShadow: '0 20px 45px rgba(17, 24, 39, 0.45), inset 0 2px 8px rgba(255,255,255,0.28)',
+    transform: 'rotateX(8deg)',
+    transformStyle: 'preserve-3d'
+  }
+
+  const navButton = (active) => ({
+    border: active ? '1px solid rgba(251,191,36,0.9)' : '1px solid rgba(255,255,255,0.25)',
+    background: active ? 'linear-gradient(135deg, #f59e0b, #ea580c)' : 'linear-gradient(180deg, rgba(255,255,255,0.14), rgba(255,255,255,0.05))',
+    color: active ? '#fff' : '#fff7ed',
+    borderRadius: '14px',
+    padding: '10px 6px',
+    fontWeight: 800,
+    fontSize: '10px',
+    minHeight: '58px',
+    boxShadow: active ? '0 12px 22px rgba(249,115,22,0.38)' : '0 8px 18px rgba(15, 23, 42, 0.18)',
+    transform: active ? 'translateY(-2px) scale(1.02)' : 'translateY(0) scale(1)',
+    transition: 'all 0.2s ease'
+  })
+
+  const infoCard = {
+    background: 'linear-gradient(145deg, rgba(255,255,255,0.26), rgba(255,255,255,0.08))',
+    border: '1px solid rgba(255,255,255,0.2)',
+    borderRadius: '18px',
+    padding: '14px',
+    boxShadow: '0 16px 28px rgba(0, 0, 0, 0.18)',
+    transform: 'translateZ(18px)',
+    backdropFilter: 'blur(5px)'
+  }
+
+  return (
+    <div style={outerShell}>
+      <div style={panel}>
+        <div style={topCard}>
+          <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '14px' }}>
+            <div>
+              <div style={{ fontSize: '11px', letterSpacing: '1.5px', color: '#fef3c7', fontWeight: 800 }}>PHOENIX AROGYAM</div>
+              <h2 style={{ margin: '4px 0 0', color: '#fff7ed', fontSize: '24px', textShadow: '0 4px 14px rgba(0,0,0,0.28)' }}>Jyotish Dashboard</h2>
+            </div>
             <button
-              key={item.key}
-              onClick={() => setPage(idx)}
+              onClick={() => navigate('/dashboard')}
               style={{
-                border: page === idx ? '2px solid #f59e0b' : '1px solid #fcd34d',
-                background: page === idx ? 'linear-gradient(135deg, #f59e0b, #ea580c)' : '#fff',
-                color: page === idx ? '#fff' : '#7c2d12',
-                borderRadius: '12px',
-                padding: '8px 4px',
-                fontWeight: 700,
-                fontSize: '10px',
-                minHeight: '52px'
+                background: 'linear-gradient(135deg, #fde68a, #f59e0b)',
+                border: 'none',
+                borderRadius: '999px',
+                padding: '8px 14px',
+                fontWeight: 800,
+                color: '#4c1d00',
+                boxShadow: '0 10px 20px rgba(245,158,11,0.45)'
               }}
             >
-              {item.label}
+              Back
             </button>
-          ))}
-        </div>
-
-        {page === 0 && (
-          <div style={{ background: '#fff', border: '2px solid #fbbf24', borderRadius: '18px', padding: '16px' }}>
-            <div style={{ textAlign: 'center', marginBottom: '10px' }}>
-              <h3 style={{ margin: 0, color: '#7c2d12', fontSize: '24px' }}>{details.naam}</h3>
-              <p style={{ margin: '8px 0 0', color: '#92400e', fontSize: '12px' }}>
-                <b>Rashi:</b> {details.rashi} &nbsp; | &nbsp; <b>Janm Sthan:</b> {details.sthan}
-              </p>
-            </div>
-
-            <div style={{ display: 'grid', gridTemplateColumns: 'repeat(4, minmax(0,1fr))', gap: '6px', marginBottom: '12px' }}>
-              <div style={{ background: '#fef3c7', borderRadius: '10px', padding: '8px', fontSize: '11px' }}><b>DOB</b><br />{details.dobDisplay}</div>
-              <div style={{ background: '#fef3c7', borderRadius: '10px', padding: '8px', fontSize: '11px' }}><b>Samay</b><br />{details.time}</div>
-              <div style={{ background: '#fef3c7', borderRadius: '10px', padding: '8px', fontSize: '11px' }}><b>Gotra</b><br />{details.gotra}</div>
-              <div style={{ background: '#fef3c7', borderRadius: '10px', padding: '8px', fontSize: '11px' }}><b>Mobile</b><br />{details.mobile}</div>
-            </div>
-
-            <h4 style={{ margin: '0 0 8px', color: '#7c2d12' }}>12 Rashi Grah Chart</h4>
-            <div style={{ display: 'grid', gridTemplateColumns: 'repeat(4, minmax(0,1fr))', gap: '8px' }}>
-              {details.chart.map((item) => (
-                <div key={item.house} style={{ background: item.house === 1 ? '#fef3c7' : '#fff7ed', border: '1px solid #fdba74', borderRadius: '8px', padding: '8px 6px', minHeight: '56px' }}>
-                  <div style={{ fontSize: '9px', fontWeight: 700, color: '#9a4d00' }}>Ghar {item.house}</div>
-                  <div style={{ fontSize: '10px', marginTop: '4px', color: '#7c2d12' }}>{item.grahas}</div>
-                </div>
-              ))}
-            </div>
           </div>
-        )}
 
-        {page === 1 && (
-          <div style={{ background: '#fff', border: '2px solid #fbbf24', borderRadius: '18px', padding: '16px' }}>
-            <h3 style={{ textAlign: 'center', marginTop: 0, color: '#7c2d12' }}>Grah Chal / Rashi Analysis</h3>
-            <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, minmax(0,1fr))', gap: '8px' }}>
-              {GRAHAS.map((grah, idx) => (
-                <div key={grah} style={{ background: '#f3f4f6', borderRadius: '10px', padding: '8px', border: '1px solid #d1d5db' }}>
-                  <div style={{ fontWeight: 700, fontSize: '11px', color: '#374151' }}>{grah}</div>
-                  <div style={{ fontSize: '10px', marginTop: '6px', color: '#4b5563' }}>
-                    {details.chart[(idx + RASHIS.indexOf(details.rashi)) % 12]?.house || '—'} house position
-                  </div>
-                </div>
-              ))}
-            </div>
-
-            <div style={{ marginTop: '16px', background: '#fffbeb', borderRadius: '12px', padding: '12px' }}>
-              <div style={{ fontWeight: 800, color: '#7c2d12' }}>Grah Samanya Fal</div>
-              <p style={{ margin: '8px 0 0', fontSize: '12px', color: '#52473b' }}>
-                {details.rashi} rashi ka janm grah chal aapko seva, vivek aur drishti me sadharan bal dikhata hai. Aapki pragati vahin hogi jahan aap apni soch ko niyamit aur parampara ke saath lekar chaloge.
-              </p>
-            </div>
-          </div>
-        )}
-
-        {page === 2 && (
-          <div style={{ background: '#fff', border: '2px solid #fbbf24', borderRadius: '18px', padding: '16px' }}>
-            <h3 style={{ textAlign: 'center', marginTop: 0, color: '#7c2d12' }}>Bhagyafal / Future</h3>
-            {details.future.map((item) => (
-              <div key={item.title} style={{ background: '#f0fdf4', borderLeft: '4px solid #22c55e', borderRadius: '10px', padding: '10px', marginBottom: '10px' }}>
-                <div style={{ fontWeight: 800, color: '#166534', fontSize: '12px' }}>{item.title}</div>
-                <p style={{ margin: '6px 0 0', fontSize: '12px', color: '#14532d' }}>{item.text}</p>
-              </div>
+          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(5, minmax(0, 1fr))', gap: '8px', marginBottom: '16px' }}>
+            {PAGE_META.map((item, idx) => (
+              <button
+                key={item.key}
+                onClick={() => setPage(idx)}
+                style={navButton(page === idx)}
+              >
+                {item.label}
+              </button>
             ))}
           </div>
-        )}
+        </div>
 
-        {page === 3 && (
-          <div style={{ background: '#fff', border: '2px solid #fbbf24', borderRadius: '18px', padding: '16px' }}>
-            <h3 style={{ textAlign: 'center', marginTop: 0, color: '#7c2d12' }}>Janm Tithi Vimarsh + Sudoku Chart</h3>
-            <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, minmax(0,1fr))', gap: '8px', marginBottom: '14px' }}>
-              <div style={{ background: '#fef2f2', borderRadius: '10px', padding: '8px', fontSize: '11px' }}><b>Tithi Number</b><br />{digitsSum(details.dob.replace(/-/g, ''))}</div>
-              <div style={{ background: '#f0fdf4', borderRadius: '10px', padding: '8px', fontSize: '11px' }}><b>Rashi</b><br />{details.rashi}</div>
-              <div style={{ background: '#eff6ff', borderRadius: '10px', padding: '8px', fontSize: '11px' }}><b>Shakti Index</b><br />{(digitsSum(details.dob.replace(/-/g, '')) % 27) + 9}</div>
+        <div style={{ marginTop: '18px' }}>
+          {page === 0 && (
+            <div style={{ ...infoCard, background: 'linear-gradient(155deg, rgba(255,255,255,0.28), rgba(254,240,138,0.16))' }}>
+              <div style={{ textAlign: 'center', marginBottom: '12px' }}>
+                <h3 style={{ margin: 0, color: '#fff7ed', fontSize: '28px', textShadow: '0 4px 12px rgba(0,0,0,0.2)' }}>{details.naam}</h3>
+                <p style={{ margin: '8px 0 0', color: '#fef9c3', fontSize: '12px' }}>
+                  <b>Rashi:</b> {details.rashi} &nbsp; | &nbsp; <b>Janm Sthan:</b> {details.sthan}
+                </p>
+              </div>
+
+              <div style={{ display: 'grid', gridTemplateColumns: 'repeat(4, minmax(0,1fr))', gap: '8px', marginBottom: '14px' }}>
+                <div style={{ background: 'linear-gradient(180deg, #fef3c7, #fcd34d)', borderRadius: '12px', padding: '10px 8px', color: '#7c2d12', boxShadow: 'inset 0 2px 8px rgba(255,255,255,0.5)' }}>
+                  <div style={{ fontSize: '9px', fontWeight: 800 }}>DOB</div>
+                  <div style={{ fontSize: '11px', marginTop: '4px', fontWeight: 700 }}>{details.dobDisplay}</div>
+                </div>
+                <div style={{ background: 'linear-gradient(180deg, #fef3c7, #fcd34d)', borderRadius: '12px', padding: '10px 8px', color: '#7c2d12' }}>
+                  <div style={{ fontSize: '9px', fontWeight: 800 }}>Samay</div>
+                  <div style={{ fontSize: '11px', marginTop: '4px', fontWeight: 700 }}>{details.time}</div>
+                </div>
+                <div style={{ background: 'linear-gradient(180deg, #fef3c7, #fcd34d)', borderRadius: '12px', padding: '10px 8px', color: '#7c2d12' }}>
+                  <div style={{ fontSize: '9px', fontWeight: 800 }}>Gotra</div>
+                  <div style={{ fontSize: '11px', marginTop: '4px', fontWeight: 700 }}>{details.gotra}</div>
+                </div>
+                <div style={{ background: 'linear-gradient(180deg, #fef3c7, #fcd34d)', borderRadius: '12px', padding: '10px 8px', color: '#7c2d12' }}>
+                  <div style={{ fontSize: '9px', fontWeight: 800 }}>Mobile</div>
+                  <div style={{ fontSize: '11px', marginTop: '4px', fontWeight: 700 }}>{details.mobile}</div>
+                </div>
+              </div>
+
+              <h4 style={{ margin: '0 0 10px', color: '#fef3c7', fontSize: '16px' }}>12 Rashi Grah Chart</h4>
+              <div style={{ display: 'grid', gridTemplateColumns: 'repeat(4, minmax(0,1fr))', gap: '8px' }}>
+                {details.chart.map((item) => (
+                  <div key={item.house} style={{
+                    background: 'linear-gradient(180deg, rgba(255,255,255,0.32), rgba(255,255,255,0.08))',
+                    border: '1px solid rgba(253,224,71,0.38)',
+                    borderRadius: '12px',
+                    padding: '8px 6px',
+                    minHeight: '62px',
+                    boxShadow: '0 10px 18px rgba(0,0,0,0.12)',
+                    transform: 'translateZ(10px)'
+                  }}>
+                    <div style={{ fontSize: '9px', fontWeight: 800, color: '#fef3c7' }}>Ghar {item.house}</div>
+                    <div style={{ fontSize: '10px', marginTop: '4px', color: '#fffaf0' }}>{item.grahas}</div>
+                  </div>
+                ))}
+              </div>
             </div>
+          )}
 
-            <p style={{ fontSize: '12px', color: '#6b7280', marginTop: 0 }}>
-              Janm tithi ke ank aur rashi ka prabhav aapke manasik sakti, niyamitata aur pravratti ko darshata hai. Neeche 9x9 Sudoku chart ank-bhed se bana hua hai, jo sadharan jod aur uthhan ka sanket deta hai.
-            </p>
+          {page === 1 && (
+            <div style={{ ...infoCard, background: 'linear-gradient(155deg, rgba(255,255,255,0.28), rgba(59,130,246,0.12))' }}>
+              <h3 style={{ textAlign: 'center', margin: '0 0 14px', color: '#fef3c7', fontSize: '20px' }}>Grah Chal / Rashi Analysis</h3>
+              <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, minmax(0,1fr))', gap: '8px' }}>
+                {GRAHAS.map((grah, idx) => (
+                  <div key={grah} style={{
+                    background: 'linear-gradient(180deg, rgba(255,255,255,0.18), rgba(15, 23, 42, 0.12))',
+                    borderRadius: '12px',
+                    padding: '10px',
+                    border: '1px solid rgba(255,255,255,0.18)',
+                    transform: 'translateZ(12px)',
+                    boxShadow: '0 12px 18px rgba(15,23,42,0.18)'
+                  }}>
+                    <div style={{ fontWeight: 800, fontSize: '11px', color: '#f8fafc' }}>{grah}</div>
+                    <div style={{ fontSize: '10px', marginTop: '6px', color: '#e2e8f0' }}>
+                      {details.chart[(idx + RASHIS.indexOf(details.rashi)) % 12]?.house || '—'} house
+                    </div>
+                  </div>
+                ))}
+              </div>
 
-            <div style={{ display: 'grid', gridTemplateColumns: 'repeat(9, 1fr)', gap: '3px', background: '#111827', padding: '6px', borderRadius: '12px', marginTop: '12px' }}>
-              {details.sudoku.flat().map((n, idx) => (
-                <div key={`${idx}-${n}`} style={{ background: '#fff', minHeight: '22px', display: 'flex', alignItems: 'center', justifyContent: 'center', fontWeight: 700, color: '#7c2d12', fontSize: '10px' }}>
-                  {n}
+              <div style={{ marginTop: '14px', background: 'linear-gradient(180deg, rgba(255,251,235,0.18), rgba(251,191,36,0.1))', borderRadius: '14px', padding: '12px', border: '1px solid rgba(253,224,71,0.34)' }}>
+                <div style={{ fontWeight: 900, color: '#fef3c7', fontSize: '12px' }}>Grah Samanya Fal</div>
+                <p style={{ margin: '8px 0 0', fontSize: '12px', color: '#fef9c3', lineHeight: '1.5' }}>
+                  {details.rashi} rashi ka janm grah chal aapko seva, vivek aur drishti me sadharan bal dikhata hai. Aapki pragati vahin hogi jahan aap apni soch ko niyamit aur parampara ke saath lekar chaloge.
+                </p>
+              </div>
+            </div>
+          )}
+
+          {page === 2 && (
+            <div style={{ ...infoCard, background: 'linear-gradient(155deg, rgba(255,255,255,0.28), rgba(34,197,94,0.12))' }}>
+              <h3 style={{ textAlign: 'center', margin: '0 0 14px', color: '#fef3c7', fontSize: '20px' }}>Bhagyafal / Future</h3>
+              {details.future.map((item) => (
+                <div key={item.title} style={{ background: 'linear-gradient(180deg, rgba(240,253,244,0.2), rgba(22,163,74,0.08))', borderLeft: '4px solid #4ade80', borderRadius: '12px', padding: '10px 10px 10px 12px', marginBottom: '10px', boxShadow: '0 10px 20px rgba(34,197,94,0.1)' }}>
+                  <div style={{ fontWeight: 900, color: '#dcfce7', fontSize: '12px' }}>{item.title}</div>
+                  <p style={{ margin: '6px 0 0', fontSize: '12px', color: '#ecfdf5', lineHeight: '1.5' }}>{item.text}</p>
                 </div>
               ))}
             </div>
-          </div>
-        )}
+          )}
 
-        {page === 4 && (
-          <div style={{ background: '#fff', border: '2px solid #fbbf24', borderRadius: '18px', padding: '16px' }}>
-            <h3 style={{ textAlign: 'center', marginTop: 0, color: '#7c2d12' }}>Naukri / Business Kary Faladesh</h3>
-
-            <div style={{ display: 'grid', gridTemplateColumns: 'repeat(2, minmax(0,1fr))', gap: '8px', marginBottom: '12px' }}>
-              <div style={{ background: '#fef3c7', borderRadius: '10px', padding: '10px' }}>
-                <div style={{ fontSize: '10px', color: '#92400e' }}>Job Score</div>
-                <div style={{ fontSize: '22px', fontWeight: 800, color: '#7c2d12' }}>{details.career.jobScore}</div>
+          {page === 3 && (
+            <div style={{ ...infoCard, background: 'linear-gradient(155deg, rgba(255,255,255,0.28), rgba(244,114,182,0.12))' }}>
+              <h3 style={{ textAlign: 'center', margin: '0 0 14px', color: '#fef3c7', fontSize: '20px' }}>Janm Tithi Vimarsh + Sudoku Chart</h3>
+              <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, minmax(0,1fr))', gap: '8px', marginBottom: '12px' }}>
+                <div style={{ background: 'linear-gradient(180deg, rgba(254,226,226,0.24), rgba(251,113,133,0.08))', borderRadius: '12px', padding: '10px', color: '#fef2f2' }}>
+                  <div style={{ fontSize: '9px', fontWeight: 800 }}>Tithi Number</div>
+                  <div style={{ fontSize: '18px', fontWeight: 900, marginTop: '6px' }}>{digitsSum(details.dob.replace(/-/g, ''))}</div>
+                </div>
+                <div style={{ background: 'linear-gradient(180deg, rgba(240,253,244,0.2), rgba(34,197,94,0.08))', borderRadius: '12px', padding: '10px', color: '#f0fdf4' }}>
+                  <div style={{ fontSize: '9px', fontWeight: 800 }}>Rashi</div>
+                  <div style={{ fontSize: '18px', fontWeight: 900, marginTop: '6px' }}>{details.rashi}</div>
+                </div>
+                <div style={{ background: 'linear-gradient(180deg, rgba(239,246,255,0.2), rgba(59,130,246,0.08))', borderRadius: '12px', padding: '10px', color: '#eff6ff' }}>
+                  <div style={{ fontSize: '9px', fontWeight: 800 }}>Shakti Index</div>
+                  <div style={{ fontSize: '18px', fontWeight: 900, marginTop: '6px' }}>{(digitsSum(details.dob.replace(/-/g, '')) % 27) + 9}</div>
+                </div>
               </div>
-              <div style={{ background: '#f0fdf4', borderRadius: '10px', padding: '10px' }}>
-                <div style={{ fontSize: '10px', color: '#166534' }}>Business Score</div>
-                <div style={{ fontSize: '22px', fontWeight: 800, color: '#166534' }}>{details.career.businessScore}</div>
+
+              <p style={{ fontSize: '12px', color: '#e2e8f0', marginTop: 0, lineHeight: '1.6' }}>
+                Janm tithi ke ank aur rashi ka prabhav aapke manasik sakti, niyamitata aur pravratti ko darshata hai. Neeche 9x9 Sudoku chart ank-bhed se bana hua hai, jo sadharan jod aur uthhan ka sanket deta hai.
+              </p>
+
+              <div style={{ display: 'grid', gridTemplateColumns: 'repeat(9, 1fr)', gap: '3px', background: 'rgba(17, 24, 39, 0.9)', padding: '6px', borderRadius: '12px', marginTop: '12px', boxShadow: 'inset 0 2px 8px rgba(255,255,255,0.1)' }}>
+                {details.sudoku.flat().map((n, idx) => (
+                  <div key={`${idx}-${n}`} style={{ background: 'linear-gradient(180deg, #fff, #f5f3ff)', minHeight: '24px', display: 'flex', alignItems: 'center', justifyContent: 'center', fontWeight: 800, color: '#7c2d12', fontSize: '10px', borderRadius: '4px' }}>
+                    {n}
+                  </div>
+                ))}
               </div>
             </div>
+          )}
 
-            <div style={{ background: '#f8fafc', border:'1px solid #cbd5e1', borderRadius:'12px', padding:'12px' }}>
-              <div style={{ fontSize: '13px', fontWeight: 800, color: '#0f172a' }}>Recommended Path</div>
-              <div style={{ marginTop: '8px', fontSize: '24px', fontWeight: 800, color: '#7c2d12' }}>{details.career.path}</div>
-              <p style={{ fontSize: '12px', color: '#334155', margin: '8px 0 0' }}>{details.career.note}</p>
-            </div>
+          {page === 4 && (
+            <div style={{ ...infoCard, background: 'linear-gradient(155deg, rgba(255,255,255,0.28), rgba(15,118,110,0.12))' }}>
+              <h3 style={{ textAlign: 'center', margin: '0 0 14px', color: '#fef3c7', fontSize: '20px' }}>Naukri / Business Kary Faladesh</h3>
 
-            <div style={{ marginTop: '12px', display: 'flex', flexWrap: 'wrap', gap: '8px' }}>
-              {details.career.keywords.map((word) => (
-                <span key={word} style={{ background: '#e2e8f0', borderRadius: '999px', padding: '6px 10px', fontSize: '11px', color: '#334155', fontWeight: 700 }}>
-                  {word}
-                </span>
-              ))}
+              <div style={{ display: 'grid', gridTemplateColumns: 'repeat(2, minmax(0,1fr))', gap: '10px', marginBottom: '12px' }}>
+                <div style={{ background: 'linear-gradient(180deg, rgba(254,243,199,0.2), rgba(251,191,36,0.08))', borderRadius: '12px', padding: '12px', border: '1px solid rgba(253,224,71,0.28)' }}>
+                  <div style={{ fontSize: '10px', color: '#fef3c7' }}>Job Score</div>
+                  <div style={{ fontSize: '24px', fontWeight: 900, color: '#fff7ed', marginTop: '6px' }}>{details.career.jobScore}</div>
+                </div>
+                <div style={{ background: 'linear-gradient(180deg, rgba(240,253,244,0.2), rgba(34,197,94,0.08))', borderRadius: '12px', padding: '12px', border: '1px solid rgba(74,222,128,0.3)' }}>
+                  <div style={{ fontSize: '10px', color: '#dcfce7' }}>Business Score</div>
+                  <div style={{ fontSize: '24px', fontWeight: 900, color: '#fff7ed', marginTop: '6px' }}>{details.career.businessScore}</div>
+                </div>
+              </div>
+
+              <div style={{ background: 'linear-gradient(180deg, rgba(15,23,42,0.25), rgba(15,23,42,0.1))', border:'1px solid rgba(255,255,255,0.18)', borderRadius:'14px', padding:'12px' }}>
+                <div style={{ fontSize: '12px', fontWeight: 800, color: '#fef3c7' }}>Recommended Path</div>
+                <div style={{ marginTop: '8px', fontSize: '24px', fontWeight: 900, color: '#fff7ed' }}>{details.career.path}</div>
+                <p style={{ fontSize: '12px', color: '#e2e8f0', margin: '8px 0 0', lineHeight: '1.6' }}>{details.career.note}</p>
+              </div>
+
+              <div style={{ marginTop: '12px', display: 'flex', flexWrap: 'wrap', gap: '8px' }}>
+                {details.career.keywords.map((word) => (
+                  <span key={word} style={{ background: 'rgba(148,163,184,0.18)', borderRadius: '999px', padding: '6px 10px', fontSize: '11px', color: '#f8fafc', fontWeight: 800, border: '1px solid rgba(255,255,255,0.12)' }}>
+                    {word}
+                  </span>
+                ))}
+              </div>
             </div>
-          </div>
-        )}
+          )}
+        </div>
       </div>
     </div>
   )
