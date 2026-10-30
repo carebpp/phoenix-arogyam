@@ -1,92 +1,162 @@
 import { useNavigate } from 'react-router-dom'
-import { useState, useRef } from 'react'
+import { useMemo, useState } from 'react'
 
-const GRAHAS = ["Surya","Chandra","Mangal","Budh","Guru","Shukra","Shani","Rahu","Ketu"]
+const GRAHAS = ['Surya', 'Chandra', 'Mangal', 'Budh', 'Guru', 'Shukra', 'Shani', 'Rahu', 'Ketu']
 
-function getRashi(dob){
-  if(!dob || dob.length<10) return ""
-  const d=new Date(dob); if(isNaN(d)) return ""
-  const m=d.getMonth()+1; const day=d.getDate();
-  if((m==3&&day>=21)||(m==4&&day<=19)) return "Mesh"
-  if((m==4&&day>=20)||(m==5&&day<=20)) return "Vrishabh"
-  if((m==5&&day>=21)||(m==6&&day<=20)) return "Mithun"
-  if((m==6&&day>=21)||(m==7&&day<=22)) return "Kark"
-  if((m==7&&day>=23)||(m==8&&day<=22)) return "Singh"
-  if((m==8&&day>=23)||(m==9&&day<=22)) return "Kanya"
-  if((m==9&&day>=23)||(m==10&&day<=22)) return "Tula"
-  if((m==10&&day>=23)||(m==11&&day<=21)) return "Vrishchik"
-  if((m==11&&day>=22)||(m==12&&day<=21)) return "Dhanu"
-  if((m==12&&day>=22)||(m==1&&day<=19)) return "Makar"
-  if((m==1&&day>=20)||(m==2&&day<=18)) return "Kumbh"
-  return "Meen"
+function getRashi(dob) {
+  if (!dob || dob.length < 10) return ''
+  const d = new Date(dob)
+  if (Number.isNaN(d.getTime())) return ''
+  const m = d.getMonth() + 1
+  const day = d.getDate()
+
+  if ((m === 3 && day >= 21) || (m === 4 && day <= 19)) return 'Mesh'
+  if ((m === 4 && day >= 20) || (m === 5 && day <= 20)) return 'Vrishabh'
+  if ((m === 5 && day >= 21) || (m === 6 && day <= 20)) return 'Mithun'
+  if ((m === 6 && day >= 21) || (m === 7 && day <= 22)) return 'Kark'
+  if ((m === 7 && day >= 23) || (m === 8 && day <= 22)) return 'Singh'
+  if ((m === 8 && day >= 23) || (m === 9 && day <= 22)) return 'Kanya'
+  if ((m === 9 && day >= 23) || (m === 10 && day <= 22)) return 'Tula'
+  if ((m === 10 && day >= 23) || (m === 11 && day <= 21)) return 'Vrishchik'
+  if ((m === 11 && day >= 22) || (m === 12 && day <= 21)) return 'Dhanu'
+  if ((m === 12 && day >= 22) || (m === 1 && day <= 19)) return 'Makar'
+  if ((m === 1 && day >= 20) || (m === 2 && day <= 18)) return 'Kumbh'
+  return 'Meen'
 }
 
-export default function Dashboard({ onLogout }){
-  const [activeTab, setActiveTab] = useState('janm')
-  const samayRef = useRef(null)
-  const [form, setForm] = useState({
-    naam: '', dd: '', mm: '', yyyy: '', time: '', sthan: '', mobile: '', gotra: '', khana: 'Veg'
-  })
-  <button onClick={()=>{}} className="w-full bg-gradient-to-r from-amber-500 to-orange-600 text-white py-3 rounded-xl font-bold mb-2">कुंडली देखें</button>
+export default function Dashboard() {
   const navigate = useNavigate()
-const [result, setResult] = useState(null)
-<button 
-  onClick={()=> navigate('/jyotish', { state: { naam: form.naam, rashi: 'Mesh', gotra: form.gotra, khana: form.khana, sthan: form.sthan } })} 
-  className="w-full bg-gradient-to-r from-amber-500 to-orange-600 text-white py-3 rounded-xl font-bold mb-2"
->
-  कुंडली देखें
-</button>
-  const dobString = form.yyyy && form.mm && form.dd? `${form.yyyy}-${form.mm.padStart(2,'0')}-${form.dd.padStart(2,'0')}` : ''
-<button onClick={()=>{}} className="w-full bg-gradient-to-r from-amber-500 to-orange-600 text-white py-3 rounded-xl font-bold mb-2">कुंडली देखें</button>
+  const [activeTab, setActiveTab] = useState('janm')
+  const [form, setForm] = useState({
+    naam: '',
+    dd: '',
+    mm: '',
+    yyyy: '',
+    time: '',
+    sthan: '',
+    gotra: '',
+    mobile: '',
+    khana: 'Veg'
+  })
+
+  const dobString = useMemo(() => {
+    if (!form.yyyy || !form.mm || !form.dd) return ''
+    return `${form.yyyy}-${form.mm.padStart(2, '0')}-${form.dd.padStart(2, '0')}`
+  }, [form.dd, form.mm, form.yyyy])
+
+  const rashi = useMemo(() => getRashi(dobString), [dobString])
+
   const handleSubmit = (e) => {
     e.preventDefault()
-    const [mobileError, setMobileError] = useState('')
-    const rashi = getRashi(dobString)
-    setResult({...form, rashi, grahas: GRAHAS })
+    if (!form.naam || !form.dd || !form.mm || !form.yyyy || !form.time || !form.sthan || !form.mobile) {
+      alert('Sab fields fill karo')
+      return
+    }
+
+    navigate('/jyotish', {
+      state: {
+        naam: form.naam,
+        dob: dobString,
+        time: form.time,
+        sthan: form.sthan,
+        gotra: form.gotra,
+        mobile: form.mobile,
+        khana: form.khana
+      }
+    })
   }
+
   return (
-    <div className="min-h-[100dvh] bg-[#fefce8] p-2 pb-20">
-      <div className="max-w-[480px] mx-auto flex justify-between items-center py-3 px-2">
-        <h1 className="text-[14px] font-bold text-amber-900 leading-tight">PHOENIX Arogyam JyotishाVidhya Kendra</h1>
-        <button onClick={onLogout} className="text-[11px] bg-red-600 text-white px-3 py-1.5 rounded-full font-bold">Logout</button>
-      </div>
+    <div style={{ minHeight: '100vh', background: '#f5f1e6', padding: '12px 16px 40px' }}>
+      <div style={{ maxWidth: '520px', margin: '0 auto' }}>
+        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '14px' }}>
+          <h1 style={{ margin: 0, fontSize: '18px', fontWeight: 800, color: '#7c2d12' }}>PHOENIX AROGYAM</h1>
+          <button
+            onClick={() => {
+              localStorage.removeItem('phoenix-auth')
+              navigate('/login', { replace: true })
+            }}
+            style={{ background: '#dc2626', color: '#fff', border: 'none', borderRadius: '999px', padding: '8px 12px', fontWeight: 700, cursor: 'pointer' }}
+          >
+            Logout
+          </button>
+        </div>
 
-      <div className="max-w-[480px] mx-auto flex gap-2 mb-4 px-2">
-        <button onClick={()=>setActiveTab('janm')} className={`flex-1 py-2.5 rounded-xl text-sm font-bold border ${activeTab==='janm'?'bg-gradient-to-r from-amber-500 to-orange-600 text-white border-orange-400':'bg-white border-amber-200'}`}>जन्म कुंडली</button>
-        <button onClick={()=>setActiveTab('vivah')} className={`flex-1 py-2.5 rounded-xl text-sm font-bold border ${activeTab==='vivah'?'bg-gradient-to-r from-amber-500 to-orange-600 text-white':'bg-white border-amber-200'}`}>विवाह लग्न</button>
-        <button onClick={()=>setActiveTab('muhurat')} className={`flex-1 py-2.5 rounded-xl text-sm font-bold border ${activeTab==='muhurat'?'bg-gradient-to-r from-amber-500 to-orange-600 text-white':'bg-white border-amber-200'}`}>शुभ मुहूर्त</button>
-      </div>
+        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: '8px', marginBottom: '14px' }}>
+          {[
+            { id: 'janm', label: 'जन्म कुंडली' },
+            { id: 'vivah', label: 'विवाह लगा' },
+            { id: 'muhurat', label: 'शुभ मुहूर्त' }
+          ].map((tab) => (
+            <button
+              key={tab.id}
+              onClick={() => setActiveTab(tab.id)}
+              style={{
+                background: activeTab === tab.id ? 'linear-gradient(135deg, #f59e0b, #ea580c)' : '#fff',
+                border: '2px solid #fbbf24',
+                color: activeTab === tab.id ? '#fff' : '#7c2d12',
+                borderRadius: '12px',
+                padding: '12px 8px',
+                fontWeight: 800,
+                cursor: 'pointer'
+              }}
+            >
+              {tab.label}
+            </button>
+          ))}
+        </div>
 
-      {!result? (
-        <div className="max-w-[480px] mx-auto bg-white rounded-2xl border-2 border-amber-300 p-4 shadow-sm">
-          <form onSubmit={handleSubmit} className="space-y-3">
-            <div><label className="text-sm font-bold">नाम</label><input value={form.naam} onChange={e=>setForm({...form, naam:e.target.value})} placeholder="पूरा नाम" required className="w-full mt-1 bg-amber-50 border border-amber-200 rounded-xl p-3 outline-none" /></div>
+        <div style={{ background: '#fff', border: '2px solid #fbbf24', borderRadius: '18px', padding: '16px' }}>
+          <form onSubmit={handleSubmit} style={{ display: 'grid', gap: '12px' }}>
             <div>
-              <label className="text-sm font-bold">जन्म तिथि DD/MM/YYYY</label>
-              <div className="flex gap-2 mt-1">
-                <input value={form.dd} onChange={e=>setForm({...form, dd:e.target.value.replace(/\D/g,'')})} placeholder="DD" maxLength={2} required className="w-1/3 bg-amber-50 border border-amber-200 rounded-xl p-3 text-center" />
-                <input value={form.mm} onChange={e=>setForm({...form, mm:e.target.value.replace(/\D/g,'')})} placeholder="MM" maxLength={2} required className="w-1/3 bg-amber-50 border border-amber-200 rounded-xl p-3 text-center" />
-                <input value={form.yyyy} onChange={e=>setForm({...form, yyyy:e.target.value.replace(/\D/g,'')})} placeholder="YYYY" maxLength={4} required className="w-1/3 bg-amber-50 border border-amber-200 rounded-xl p-3 text-center" />
-              </div>
+              <label style={{ display: 'block', fontSize: '13px', fontWeight: 700, marginBottom: '6px', color: '#7c2d12' }}>नाम</label>
+              <input value={form.naam} onChange={(e) => setForm({ ...form, naam: e.target.value })} placeholder="पूरा नाम" required style={{ width: '100%', height: '42px', border: '1px solid #f5d0a8', borderRadius: '10px', padding: '0 12px', background: '#fffbeb' }} />
             </div>
-            <div><label className="text-sm font-bold">जन्म समय</label><input ref={samayRef} type="time" value={form.time} onChange={e=>setForm({...form, time:e.target.value})} required className="w-full mt-1 bg-amber-50 border border-amber-200 rounded-xl p-3" /></div>
-            <div><label className="text-sm font-bold">जन्म स्थान</label><input value={form.sthan} onChange={e=>setForm({...form, sthan:e.target.value})} placeholder="शहर / गाँव" required className="w-full mt-1 bg-amber-50 border border-amber-200 rounded-xl p-3" /></div>
-            <div><label className="text-sm font-bold">गोत्र</label><input value={form.gotra} onChange={e=>setForm({...form, gotra:e.target.value})} placeholder="जैसे - भारद्वाज, कश्यप" required className="w-full mt-1 bg-amber-50 border border-amber-200 rounded-xl p-3" /></div>
-            <div><label className="text-sm font-bold">खाना</label><select value={form.khana} onChange={e=>setForm({...form, khana:e.target.value})} className="w-full mt-1 bg-amber-50 border border-amber-200 rounded-xl p-3"><option>Veg</option><option>Non-Veg</option><option>Jain</option><option>Vegan</option></select></div>
-            <div><label className="text-sm font-bold">मोबाइल {form.mobile.length}/10</label><input type="tel" value={form.mobile} onChange={e=>setForm({...form, mobile:e.target.value.replace(/\D/g,'')})} maxLength={10} placeholder="10 अंक" required className="w-full mt-1 bg-amber-50 border border-amber-200 rounded-xl p-3" /></div>
-            <button type="submit" className="w-full bg-gradient-to-r from-orange-500 to-orange-600 text-white font-bold py-3.5 rounded-xl">🔮 कुंडली देखें</button>
+
+            <div>
+              <label style={{ display: 'block', fontSize: '13px', fontWeight: 700, marginBottom: '6px', color: '#7c2d12' }}>जन्म तिथि DD/MM/YYYY</label>
+              <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr 1.5fr', gap: '8px' }}>
+                <input value={form.dd} onChange={(e) => setForm({ ...form, dd: e.target.value.replace(/\D/g, '').slice(0, 2) })} placeholder="DD" required style={{ height: '42px', border: '1px solid #f5d0a8', borderRadius: '10px', padding: '0 12px', background: '#fffbeb' }} />
+                <input value={form.mm} onChange={(e) => setForm({ ...form, mm: e.target.value.replace(/\D/g, '').slice(0, 2) })} placeholder="MM" required style={{ height: '42px', border: '1px solid #f5d0a8', borderRadius: '10px', padding: '0 12px', background: '#fffbeb' }} />
+                <input value={form.yyyy} onChange={(e) => setForm({ ...form, yyyy: e.target.value.replace(/\D/g, '').slice(0, 4) })} placeholder="YYYY" required style={{ height: '42px', border: '1px solid #f5d0a8', borderRadius: '10px', padding: '0 12px', background: '#fffbeb' }} />
+              </div>
+              {rashi && <div style={{ fontSize: '12px', marginTop: '6px', color: '#92400e', fontWeight: 700 }}>Detected Rashi: {rashi}</div>}
+            </div>
+
+            <div>
+              <label style={{ display: 'block', fontSize: '13px', fontWeight: 700, marginBottom: '6px', color: '#7c2d12' }}>जन्म समय</label>
+              <input type="time" value={form.time} onChange={(e) => setForm({ ...form, time: e.target.value })} required style={{ width: '100%', height: '42px', border: '1px solid #f5d0a8', borderRadius: '10px', padding: '0 12px', background: '#fffbeb' }} />
+            </div>
+
+            <div>
+              <label style={{ display: 'block', fontSize: '13px', fontWeight: 700, marginBottom: '6px', color: '#7c2d12' }}>जन्म स्थान</label>
+              <input value={form.sthan} onChange={(e) => setForm({ ...form, sthan: e.target.value })} placeholder="शहर / स्थान" required style={{ width: '100%', height: '42px', border: '1px solid #f5d0a8', borderRadius: '10px', padding: '0 12px', background: '#fffbeb' }} />
+            </div>
+
+            <div>
+              <label style={{ display: 'block', fontSize: '13px', fontWeight: 700, marginBottom: '6px', color: '#7c2d12' }}>गोत्र</label>
+              <input value={form.gotra} onChange={(e) => setForm({ ...form, gotra: e.target.value })} placeholder="जैसे - Kashyapa" style={{ width: '100%', height: '42px', border: '1px solid #f5d0a8', borderRadius: '10px', padding: '0 12px', background: '#fffbeb' }} />
+            </div>
+
+            <div>
+              <label style={{ display: 'block', fontSize: '13px', fontWeight: 700, marginBottom: '6px', color: '#7c2d12' }}>खाना</label>
+              <select value={form.khana} onChange={(e) => setForm({ ...form, khana: e.target.value })} style={{ width: '100%', height: '42px', border: '1px solid #f5d0a8', borderRadius: '10px', padding: '0 12px', background: '#fffbeb' }}>
+                <option value="Veg">Veg</option>
+                <option value="NonVeg">Non Veg</option>
+              </select>
+            </div>
+
+            <div>
+              <label style={{ display: 'block', fontSize: '13px', fontWeight: 700, marginBottom: '6px', color: '#7c2d12' }}>मोबाइल</label>
+              <input value={form.mobile} onChange={(e) => setForm({ ...form, mobile: e.target.value.replace(/\D/g, '').slice(0, 10) })} placeholder="मोबाइल नंबर" required style={{ width: '100%', height: '42px', border: '1px solid #f5d0a8', borderRadius: '10px', padding: '0 12px', background: '#fffbeb' }} />
+            </div>
+
+            <button type="submit" style={{ width: '100%', height: '48px', border: 'none', borderRadius: '10px', background: 'linear-gradient(135deg, #f59e0b, #ea580c)', color: '#fff', fontWeight: 800, fontSize: '18px', cursor: 'pointer' }}>
+              🔮 कुंडली देखें
+            </button>
           </form>
         </div>
-      ) : (
-        <div className="max-w-[480px] mx-auto bg-white rounded-2xl border-2 border-amber-300 p-4">
-          <h2 className="font-bold text-lg text-center text-amber-900">कुंडली - {result.naam}</h2>
-          <p className="text-center text-sm mt-1">राशि: <b>{result.rashi}</b> | गोत्र: <b>{result.gotra}</b> | भोजन: <b>{result.khana}</b></p>
-          <div className="grid grid-cols-3 gap-2 mt-4">
-            {result.grahas.map(g=><div key={g} className="bg-amber-50 border rounded-lg p-2 text-center text-xs">{g}</div>)}
-          </div>
-          <button onClick={()=>setResult(null)} className="w-full mt-4 bg-gray-100 py-2 rounded-xl">वापस</button>
-        </div>
-      )}
+      </div>
     </div>
   )
 }
